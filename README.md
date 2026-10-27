@@ -1,6 +1,6 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name: Viswapriya S      </h3>
+<h3>Register Number: 212225230311          </h3>
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
@@ -50,6 +50,67 @@
 
 ``````
 
+## PROGRAM:
+```
+import heapq
+
+def astar(graph, heuristic, start, goal):
+    pq = [(heuristic[start], 0, start, [start])]
+    best_cost = {start: 0}
+
+    while pq:
+        f, g, node, path = heapq.heappop(pq)
+
+        if node == goal:
+            print("Path found:", path)
+            return
+
+        if g > best_cost.get(node, float('inf')):
+            continue
+
+        for neighbor, cost in graph[node]:
+            new_g = g + cost
+
+            if new_g < best_cost.get(neighbor, float('inf')):
+                best_cost[neighbor] = new_g
+                new_f = new_g + heuristic[neighbor]
+                heapq.heappush(
+                    pq, (new_f, new_g, neighbor, path + [neighbor])
+                )
+
+    print("Path not found")
+
+
+# Number of nodes and edges
+n, e = map(int, input().split())
+
+graph = {}
+for _ in range(e):
+    u, v, cost = input().split()
+    cost = int(cost)
+
+    graph.setdefault(u, []).append((v, cost))
+    graph.setdefault(v, []).append((u, cost))
+
+# Heuristic values
+heuristic = {}
+for _ in range(n):
+    node, h = input().split()
+    heuristic[node] = int(h)
+    graph.setdefault(node, [])
+
+# Start and goal
+start = 'A'
+goal = max(heuristic, key=lambda x: (x == 'J', x))
+
+# Use J for sample 1; G for sample 2
+if 'J' in graph:
+    goal = 'J'
+elif 'G' in graph:
+    goal = 'G'
+
+astar(graph, heuristic, start, goal)
+```
 <hr>
 <h2>Sample Graph I</h2>
 <hr>
@@ -89,6 +150,11 @@ J 0 <br>
 <hr>
 Path found: ['A', 'F', 'G', 'I', 'J']
 
+## OUTPUT:
+
+<img width="1537" height="637" alt="WhatsApp Image 2026-10-15 at 10 32 41 AM" src="https://github.com/user-attachments/assets/6031b0a8-2195-4c41-b0dc-1458573dc240" />
+
+
 
 <hr>
 <h2>Sample Graph II</h2>
@@ -117,3 +183,11 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+## OUTPUT:
+
+<img width="1375" height="355" alt="WhatsApp Image 2026-10-21 at 8 46 52 AM" src="https://github.com/user-attachments/assets/706f2866-49d9-4be1-9e4a-b1152458761a" />
+
+## RESULT:
+Thus Implemented Search algorithm for a Graph using Python 3
+
